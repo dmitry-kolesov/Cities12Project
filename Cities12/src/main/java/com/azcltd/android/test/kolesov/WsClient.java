@@ -25,6 +25,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,14 +43,18 @@ public class WsClient {
     {
         // get from http://stackoverflow.com/questions/7281283/android-webrequest-simple-solution
         HttpClient client = new DefaultHttpClient();
+        //URI uri = new URI("http://ec2-54-235-247-20.compute-1.amazonaws.com/android/cities.json");
         HttpGet httpget = new HttpGet(wsUrl);
 
         // Execute the request
         HttpResponse response;
         try {
             response = client.execute(httpget);
-
+//            URL url = new URL(wsUrl);
+//            InputStream in = url.openStream();
+//            InputStreamReader reader = new InputStreamReader(in);
             // Get hold of the response entity
+
             HttpEntity entity = response.getEntity();
             // If the response does not enclose an entity, there is no need
             // to worry about connection release
@@ -111,7 +117,7 @@ public class WsClient {
 
             /***** Returns the value mapped by name if it exists and is a JSONArray. ***/
             /*******  Returns null otherwise.  *******/
-            JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
+            JSONArray jsonMainNode = jsonResponse.getJSONArray("cities");
 
             /*********** Process each JSON Node ************/
 

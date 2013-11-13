@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.List;
@@ -27,11 +28,20 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-        WsClient client = new WsClient();
-        List<City> cities = client.GetCitites();
-        ListView lv = (ListView)findViewById(R.id.lvMain);
-        ArrayAdapter<City> adapter = new ArrayAdapter<City>(this, android.R.layout.simple_list_item_1, cities);
-        lv.setAdapter(adapter);
+
+        Button resend = (Button)findViewById(R.id.resendBtn);
+        resend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WsClient client = new WsClient();
+                List<City> cities = client.GetCitites();
+                if(cities != null){
+                    ListView lv = (ListView)findViewById(R.id.lvMain);
+                    MyAdapter adapter = new MyAdapter(view.getContext(), R.layout.myListItem, cities);
+                    lv.setAdapter(adapter);
+                }
+            }
+        });
     }
 
 
