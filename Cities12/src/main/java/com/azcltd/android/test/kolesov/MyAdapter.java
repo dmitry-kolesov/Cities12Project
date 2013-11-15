@@ -23,6 +23,7 @@ public class MyAdapter  extends BaseAdapter {
         private static LayoutInflater inflater = null;
         static DrawableManager manager;
 
+
     static
     {
         manager = new DrawableManager();

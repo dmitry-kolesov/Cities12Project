@@ -22,6 +22,8 @@ public class City {
     { return image_url;}
     public String GetCountry()
     { return country;}
+    public String GetDescription()
+    { return description;}
     public Location GetLocation()
     { return location;}
 

@@ -22,6 +22,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.azcltd.android.test.kolesov.CityDetails"
+            android:label="City Details" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN1" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

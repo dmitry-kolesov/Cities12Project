@@ -37,10 +37,25 @@ import java.util.List;
 public class WsClient {
 
     static final String wsUrl = "http://ec2-54-235-247-20.compute-1.amazonaws.com/android/cities.json";
+    static WsClient instance;
+    static WsClient GetInstance(){
+        if(instance == null)
+            instance = new WsClient();
+        return instance;
+    }
     private List<City> cities;
 
-    public List<City> GetCitites()
+    public List<City> GetCities()
     {
+        if(cities == null || cities.isEmpty())
+            FillCitites();
+        return cities;
+    }
+
+    public List<City> FillCitites()
+    {
+        if(cities != null && !cities.isEmpty())
+            return cities;
         // get from http://stackoverflow.com/questions/7281283/android-webrequest-simple-solution
         HttpClient client = new DefaultHttpClient();
         //URI uri = new URI("http://ec2-54-235-247-20.compute-1.amazonaws.com/android/cities.json");
