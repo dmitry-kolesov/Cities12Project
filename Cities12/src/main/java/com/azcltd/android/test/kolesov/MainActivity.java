@@ -1,5 +1,6 @@
 package com.azcltd.android.test.kolesov;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,13 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
+
+    List<City> cities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +34,36 @@ public class MainActivity extends ActionBarActivity {
                     .commit();
         }
 
-        Button resend = (Button)findViewById(R.id.resendBtn);
-        resend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        Button resend = (Button)findViewById(R.id.resendBtn);
+//        resend.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view)
+            {
                 WsClient client = new WsClient();
-                List<City> cities = client.GetCitites();
+                cities = client.GetCitites();
                 if(cities != null){
                     ListView lv = (ListView)findViewById(R.id.lvMain);
-                    MyAdapter adapter = new MyAdapter(view.getContext(), R.layout.myListItem, cities);
+                    MyAdapter adapter = new MyAdapter( lv.getContext(), R.layout.mylistitem, cities);
                     lv.setAdapter(adapter);
                 }
             }
-        });
+        //});
+        ListView listView = (ListView)findViewById(R.id.lvMain);
+        listView.setOnItemClickListener (listener);
     }
+        AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                //String name = ((TextView) view.findViewById(R.id.txtText)).getText();
+                Intent intent = new Intent(context, WhatEverYouWant.class);
+                intent.putExtra("name",name);
+                startActivity(intent);
+            }
+
+        };
+
+
 
 
     @Override
@@ -73,12 +94,12 @@ public class MainActivity extends ActionBarActivity {
         public PlaceholderFragment() {
         }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
+//        @Override
+//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                Bundle savedInstanceState) {
+//            //View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+//            return rootView;
+//        }
     }
 
 }

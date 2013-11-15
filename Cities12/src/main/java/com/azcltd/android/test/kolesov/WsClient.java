@@ -143,7 +143,7 @@ public class WsClient {
                 location.setLongitude(longitude);
                 location.setLatitude(latitude);
 
-                cities.add(new City(id, description, name, image_url, country, location));
+                cities.add(new City(id, name, description,image_url, country, location));
             }
 
 
