@@ -80,7 +80,8 @@ public class DrawableManager {
         if(image != null)
         {
             Bitmap b = ((BitmapDrawable)image).getBitmap();
-            Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 100, false);
+            float coef = b.getWidth() / b.getHeight();
+            Bitmap bitmapResized = Bitmap.createScaledBitmap(b, (int)(100 * coef), 100, false);
             return new BitmapDrawable(bitmapResized);
         }
         return null;
