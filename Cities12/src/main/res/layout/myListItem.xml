@@ -4,7 +4,7 @@
     android:maxHeight="30dp"
     android:height="30dp"
     android:layout_height="30pt"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/textView1"

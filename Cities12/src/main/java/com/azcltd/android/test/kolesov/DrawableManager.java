@@ -77,9 +77,13 @@ public class DrawableManager {
         }
     }
     private Drawable getThumbnail(Drawable image) {
-        Bitmap b = ((BitmapDrawable)image).getBitmap();
-        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 50, 50, false);
-        return new BitmapDrawable(bitmapResized);
+        if(image != null)
+        {
+            Bitmap b = ((BitmapDrawable)image).getBitmap();
+            Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 100, false);
+            return new BitmapDrawable(bitmapResized);
+        }
+        return null;
     }
 
 
@@ -113,8 +117,6 @@ public class DrawableManager {
                 }
             };
             thread.start();
-
-
     }
 
     private void SetDrawableToImageView(Drawable image, ImageView imageView, boolean isNeedThumbnailed)
@@ -123,7 +125,8 @@ public class DrawableManager {
         {
             image = getThumbnail(image);
         }
-        imageView.setImageDrawable(image);
+        if(image != null)
+            imageView.setImageDrawable(image);
     }
 
 class DrawableWithFlag
