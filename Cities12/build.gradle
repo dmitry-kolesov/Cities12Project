@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:+'
     compile files('libs/classes.jar')
     compile files('libs/yandexmapkit-library.jar')
+    compile files('libs/annotations.jar')
 }

@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="Cities"
         android:theme="@style/AppTheme" >
-        <uses-library android:name="ru.yandex.yandexmapkit"/>
+        <!--<uses-library android:name="ru.yandex.yandexmapkit"/>-->
         <activity
             android:name="com.azcltd.android.test.kolesov.MainActivity"
             android:label="Cities" >
@@ -41,4 +41,5 @@
 
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>
