@@ -133,7 +133,7 @@ class DrawableWithFlag
     public DrawableWithFlag(Drawable mImage,
                                 boolean mIsNeedThumbnailed)
     {
-        image = image;
+        image = mImage;
         isNeedThumbnailed = mIsNeedThumbnailed;
     }
 }
