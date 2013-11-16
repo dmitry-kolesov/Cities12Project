@@ -43,8 +43,7 @@ public class CityDetails extends Activity {
             tv.setText(city.GetDescription());
             ImageView iv = (ImageView)findViewById(R.id.imageView1);
             DrawableManager manager = new DrawableManager();
-            manager.fetchDrawableOnThread(city.GetImageUrl(), (ImageView) iv);
-
+            manager.fetchDrawableOnThread(city.GetImageUrl(), (ImageView) iv, false);
         }}catch(Exception ex)
     {
         int j = 0;

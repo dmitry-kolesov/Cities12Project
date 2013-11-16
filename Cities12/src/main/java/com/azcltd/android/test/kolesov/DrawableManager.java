@@ -18,6 +18,9 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 */
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -36,12 +39,12 @@ import java.util.Map;
 
 //http://stackoverflow.com/questions/541966/how-do-i-do-a-lazy-load-of-images-in-listview/3068012#3068012
 public class DrawableManager {
-    private final Map<String, Drawable> drawableMap;
+    private static final Map<String, Drawable> drawableMap = new HashMap<String, Drawable>();
 
-    public final Map<String, Drawable> GetDrawableMap(){return drawableMap;}
+    public static final Map<String, Drawable> GetDrawableMap(){return drawableMap;}
 
     public DrawableManager() {
-        drawableMap = new HashMap<String, Drawable>();
+       // drawableMap = new HashMap<String, Drawable>();
     }
 
     public Drawable fetchDrawable(String urlString) {
@@ -73,31 +76,67 @@ public class DrawableManager {
             return null;
         }
     }
+    private Drawable getThumbnail(Drawable image) {
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 50, 50, false);
+        return new BitmapDrawable(bitmapResized);
+    }
 
-    public void fetchDrawableOnThread(final String urlString, final ImageView imageView) {
+
+
+    public void fetchDrawableOnThread(final String urlString, final ImageView imageView, final boolean isThumbnail) {
+
         if (drawableMap.containsKey(urlString)) {
-            imageView.setImageDrawable(drawableMap.get(urlString));
+            Drawable image = drawableMap.get(urlString);
+            SetDrawableToImageView(image, imageView, isThumbnail);
+            return;
         }
 
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message message) {
-                imageView.setImageDrawable((Drawable) message.obj);
-            }
-        };
+            final Handler handler = new Handler() {
+                @Override
+                public void handleMessage(Message message) {
+                    DrawableWithFlag obj = (DrawableWithFlag) message.obj;
+                    Drawable image = obj.image;
+                    boolean flag = obj.isNeedThumbnailed;
+                    SetDrawableToImageView(image, imageView, flag);
+                }
+            };
 
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                setPriority(3);
-                //TODO : set imageView to a "pending" image
-                Drawable drawable = fetchDrawable(urlString);
-                Message message = handler.obtainMessage(1, drawable);
-                handler.sendMessage(message);
-            }
-        };
-        thread.start();
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    setPriority(3);
+                    //TODO : set imageView to a "pending" image
+                    Drawable drawable = fetchDrawable(urlString);
+                    Message message = handler.obtainMessage(1, new DrawableWithFlag(drawable, isThumbnail));
+                    handler.sendMessage(message);
+                }
+            };
+            thread.start();
+
+
     }
+
+    private void SetDrawableToImageView(Drawable image, ImageView imageView, boolean isNeedThumbnailed)
+    {
+        if(isNeedThumbnailed)
+        {
+            image = getThumbnail(image);
+        }
+        imageView.setImageDrawable(image);
+    }
+
+class DrawableWithFlag
+{
+    Drawable image;
+    boolean isNeedThumbnailed;
+    public DrawableWithFlag(Drawable mImage,
+                                boolean mIsNeedThumbnailed)
+    {
+        image = image;
+        isNeedThumbnailed = mIsNeedThumbnailed;
+    }
+}
 
     private InputStream fetch(String urlString) throws MalformedURLException, IOException {
         DefaultHttpClient httpClient = new DefaultHttpClient();

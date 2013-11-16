@@ -11,11 +11,11 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Cities"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.azcltd.android.test.kolesov.MainActivity"
-            android:label="@string/app_name" >
+            android:label="Cities" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

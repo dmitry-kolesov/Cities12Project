@@ -74,7 +74,7 @@ public class MyAdapter  extends BaseAdapter {
 
                 String url = data.get(position).GetImageUrl();
                 //if(!manager.GetDrawableMap().containsKey(url))
-                manager.fetchDrawableOnThread(url, (ImageView) vi.findViewById(R.id.imageView1));
+                manager.fetchDrawableOnThread(url, (ImageView) vi.findViewById(R.id.imageView1), true);
                 //new DownloadImageTask((ImageView) vi.findViewById(R.id.imageView1)).execute(url);
             }catch (Exception ex)
             {
