@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="yandexmapkit-library">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Cities12/libs/yandexmapkit-library.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

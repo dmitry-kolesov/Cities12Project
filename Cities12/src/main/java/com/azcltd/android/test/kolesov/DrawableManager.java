@@ -80,14 +80,12 @@ public class DrawableManager {
         if(image != null)
         {
             Bitmap b = ((BitmapDrawable)image).getBitmap();
-            float coef = b.getWidth() / b.getHeight();
+            float coef = (float)b.getWidth() / (float)b.getHeight();
             Bitmap bitmapResized = Bitmap.createScaledBitmap(b, (int)(100 * coef), 100, false);
             return new BitmapDrawable(bitmapResized);
         }
         return null;
     }
-
-
 
     public void fetchDrawableOnThread(final String urlString, final ImageView imageView, final boolean isThumbnail) {
 

@@ -13,6 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="Cities"
         android:theme="@style/AppTheme" >
+        <uses-library android:name="ru.yandex.yandexmapkit"/>
         <activity
             android:name="com.azcltd.android.test.kolesov.MainActivity"
             android:label="Cities" >
@@ -31,6 +32,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.azcltd.android.test.kolesov.MyMapActivity" android:label="City Map"
+            android:theme="@android:style/Theme.NoTitleBar">
+            <action android:name="android.intent.action.MAIN2" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </activity>
+
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
