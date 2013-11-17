@@ -2,7 +2,6 @@
   <library name="slf4j-android-1.5.8">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/Cities12/libs/slf4j-android-1.5.8.jar!/" />
-      <root url="jar://$PROJECT_DIR$/Cities12/libs/slf4j-android-1.5.8.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

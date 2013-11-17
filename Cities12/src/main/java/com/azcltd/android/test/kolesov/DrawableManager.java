@@ -34,6 +34,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,16 +48,17 @@ public class DrawableManager {
        // drawableMap = new HashMap<String, Drawable>();
     }
 
-    public Drawable fetchDrawable(String urlString) {
-        if (drawableMap.containsKey(urlString)) {
+    public Drawable fetchDrawable(String urlString, boolean isForceUpdate) {
+        if (drawableMap.containsKey(urlString) && (!isForceUpdate)) {
             return drawableMap.get(urlString);
         }
 
-        Log.d(this.getClass().getSimpleName(), "image url:" + urlString);
+        //Log.d(this.getClass().getSimpleName(), "image url:" + urlString);
+        Drawable drawable = null;
         try {
             InputStream is = fetch(urlString);
-            Drawable drawable = Drawable.createFromStream(is, "src");
-
+            drawable = Drawable.createFromStream(is, "src");
+            is.close();
 
             if (drawable != null) {
                 drawableMap.put(urlString, drawable);
@@ -64,17 +66,42 @@ public class DrawableManager {
 //                        + drawable.getIntrinsicHeight() + "," + drawable.getIntrinsicWidth() + ", "
 //                        + drawable.getMinimumHeight() + "," + drawable.getMinimumWidth());
             } else {
-                Log.w(urlString, "could not get thumbnail");
+                drawable = getAsBitmap(urlString);
+//                else
+//                    Log.w(urlString, "could not get thumbnail");
             }
 
             return drawable;
         } catch (MalformedURLException e) {
-            Log.e(this.getClass().getSimpleName(), "fetchDrawable failed", e);
+            //Log.e(this.getClass().getSimpleName(), "fetchDrawable failed", e);
             return null;
         } catch (IOException e) {
-            Log.e(this.getClass().getSimpleName(), "fetchDrawable failed", e);
+            //Log.e(this.getClass().getSimpleName(), "fetchDrawable failed", e);
             return null;
         }
+        catch (Exception e) {
+                drawable = getAsBitmap(urlString);
+
+            }
+            return drawable;
+        }
+
+
+    private Drawable getAsBitmap(String urlString)
+    {
+        try{
+            InputStream is1 = (InputStream) new URL(urlString).getContent();
+            Bitmap d = BitmapFactory.decodeStream(is1);
+            is1.close();
+            Drawable drawable = new BitmapDrawable(d);
+            if(d != null)
+                drawableMap.put(urlString, drawable);
+            return drawable;
+        }
+        catch (Exception e1) {
+            int i = 1;
+        }
+        return null;
     }
 
     private Drawable getThumbnail(Drawable image) {
@@ -90,16 +117,30 @@ public class DrawableManager {
 
     public void fetchDrawableOnThreadWithNoImage(final String urlString, final ImageView imageView, final boolean isThumbnail)
     {
-        fetchDrawableOnThread(urlString, imageView, false);
+        fetchDrawableOnThread(urlString, imageView, false, false);
         if(imageView.getDrawable() == null)
         {
-            fetchDrawableOnThread("http://www.clubwebsite.co.uk/img/misc/noImageAvailable.jpg", imageView, false);
+            //fetchDrawableOnThread(urlString, imageView, false, true);
+            //if(imageView.getDrawable() == null)
+            {
+                if(imageView.getTag(0) != isErrorImageKey)
+                {
+                    fetchDrawableOnThread("http://www.wildcatpad.com/images/wutu.jpg", imageView, false, false);
+                    imageView.setTag(0, isErrorImageKey);
+                }
+//                else
+//                {
+//                    fetchDrawableOnThread(urlString, imageView, false, true);
+//                    imageView.setTag(0, "");
+//                }
+            }
         }
     }
 
-    public void fetchDrawableOnThread(final String urlString, final ImageView imageView, final boolean isThumbnail) {
+    public static final String isErrorImageKey = "isErrorImage";
+    public void fetchDrawableOnThread(final String urlString, final ImageView imageView, final boolean isThumbnail, final boolean forceUpdate) {
 
-        if (drawableMap.containsKey(urlString)) {
+        if (drawableMap.containsKey(urlString) && !forceUpdate ) {
             Drawable image = drawableMap.get(urlString);
 
             SetDrawableToImageView(image, imageView, isThumbnail);
@@ -119,11 +160,17 @@ public class DrawableManager {
             Thread thread = new Thread() {
                 @Override
                 public void run() {
-                    setPriority(3);
-                    Drawable drawable = fetchDrawable(urlString);
+                    //setPriority(3);
+                    Drawable drawable = fetchDrawable(urlString, forceUpdate);
                     if(drawable != null){
                         Message message = handler.obtainMessage(1, new DrawableWithFlag(drawable, isThumbnail));
                         handler.sendMessage(message);
+//                        try{
+//                            //sleep(100);
+//                        }
+//                        catch(Exception ex) {
+//                            int i =0;
+//                        }
                     }
                 }
             };

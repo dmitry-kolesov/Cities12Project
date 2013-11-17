@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kdb on 14.11.13.
@@ -22,17 +24,13 @@ public class MyAdapter  extends ArrayAdapter<City> {
         City[]  data;
         private static LayoutInflater inflater = null;
         static DrawableManager manager;
-
+        //private Map<Integer, View> myViews= new HashMap <Integer, View>();
 
     static
     {
         manager = new DrawableManager();
     }
 
-//    public MyAdapter()
-//    {
-//        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//    }
         public MyAdapter(Context context, City[] objects) {
             super(context, R.layout.mylistitem, objects);
             // TODO Auto-generated constructor stub
@@ -42,54 +40,47 @@ public class MyAdapter  extends ArrayAdapter<City> {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
-//        @Override
-//        public int getCount() {
-//            // TODO Auto-generated method stub
-//            return data.length;
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            // TODO Auto-generated method stub
-//            return data[position];
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            // TODO Auto-generated method stub
-//            return position;
-//        }
-
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public int getCount() {
             // TODO Auto-generated method stub
-            View v = convertView;
-            if (v == null)
-            {
-                LayoutInflater vi =
-                        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.mylistitem, null);
-                //vi = inflater.inflate(R.layout.mylistitem, null);
-            }
-            TextView text = (TextView) v.findViewById(R.id.textView1);
-            text.setText(data[position].GetName());
-
-            //            ImageView image = (ImageView) vi.findViewById(R.id.imageView1);
-            try{
-                //            image.setImageURI(Uri.parse(data.get(position).GetImageUrl()));
-
-                String url = data[position].GetImageUrl();
-                //if(!manager.GetDrawableMap().containsKey(url))
-                manager.fetchDrawableOnThreadWithNoImage(url, (ImageView) v.findViewById(R.id.imageView), true);
-                //new DownloadImageTask((ImageView) vi.findViewById(R.id.imageView1)).execute(url);
-            }catch (Exception ex)
-            {
-                ;
-            }
-            return v;
+            return data.length;
+        }
+//
+        @Override
+        public City getItem(int position) {
+            // TODO Auto-generated method stub
+            return data[position];
         }
 
+    @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = convertView;
+            //View view = myViews.get(position);
+            //if (view == null) {
+                if (v == null)
+                {
+                    LayoutInflater vi =
+                            (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    v = vi.inflate(R.layout.mylistitem, null);
+                    //View v2 = inflater.inflate(R.layout.mylistitem, null);
+                }
+                //myViews.put(position, v);
+                TextView text = (TextView) v.findViewById(R.id.textView1);
+                text.setText(data[position].GetName());
 
-
+                try{
+                    String url = data[position].GetImageUrl();
+                    ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
+                    if(imageView.getDrawable() == null)// || imageView.getTag(0) == DrawableManager.isErrorImageKey)
+                        manager.fetchDrawableOnThreadWithNoImage(url, imageView, true);
+                    else
+                    {int i = 0;}
+                }
+                catch (Exception ex)
+                {
+                    ;
+                }
+            return v;
+        }
     }
 

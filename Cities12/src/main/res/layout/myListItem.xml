@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="30pt"
     android:orientation="horizontal"
     android:background="#9BFF70">
 <TextView
@@ -18,7 +18,10 @@
 </TextView>
     <ImageView
         android:id="@+id/imageView"
-        android:layout_height="match_parent"
-        android:layout_weight="0.4"
+        android:minHeight="30pt"
+        android:maxHeight="30pt"
+        android:layout_gravity="top"
+        android:layout_height="30pt"
+        android:layout_weight="1.5"
         android:layout_width="match_parent" />
 </LinearLayout>
