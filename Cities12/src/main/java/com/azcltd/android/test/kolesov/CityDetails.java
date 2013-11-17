@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by 123 on 15.11.13.
+ * Created by kdb on 15.11.13.
  */
 public class CityDetails extends Activity {
 
@@ -48,8 +48,8 @@ public class CityDetails extends Activity {
             DrawableManager manager = new DrawableManager();
             manager.fetchDrawableOnThread(city.GetImageUrl(), (ImageView) iv, false);
 
-            Button clean = (Button)findViewById(R.id.showMapBtn);
-            clean.setOnClickListener(new View.OnClickListener() {
+            Button showMapBtn = (Button)findViewById(R.id.showMapBtn);
+            showMapBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent( CityDetails.this.getApplicationContext(), MyMapActivity.class);

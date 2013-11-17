@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.List;
 
 /**
- * Created by 123 on 14.11.13.
+ * Created by kdb on 14.11.13.
  */
 public class MyAdapter  extends BaseAdapter {
 

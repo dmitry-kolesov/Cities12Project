@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by 123 on 13.11.13.
+ * Created by kdb on 13.11.13.
  */
 
 public class WsClient {

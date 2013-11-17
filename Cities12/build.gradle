@@ -27,4 +27,8 @@ dependencies {
     compile files('libs/classes.jar')
     compile files('libs/yandexmapkit-library.jar')
     compile files('libs/annotations.jar')
+    compile files('libs/osmdroid-android-4.0.jar')
+    compile files('libs/slf4j-android-1.5.8.jar')
+    compile files('lib/osmdroid-android-4.0.jar')
+    compile files('lib/slf4j-android-1.5.8.jar')
 }

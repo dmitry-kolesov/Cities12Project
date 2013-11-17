@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import java.io.InputStream;
 
 /**
- * Created by 123 on 14.11.13.
+ * Created by kdb on 14.11.13.
  */
 //http://developer.aiwgame.com/imageview-show-image-from-url-on-android-4-0.html
     public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

@@ -2,6 +2,7 @@
   <library name="annotations">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/Cities12/libs/annotations.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Cities12/libs/annotations.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

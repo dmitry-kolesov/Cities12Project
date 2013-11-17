@@ -3,7 +3,7 @@ package com.azcltd.android.test.kolesov;
 import android.location.Location;
 
 /**
- * Created by 123 on 13.11.13.
+ * Created by kdb on 13.11.13.
  */
 public class City {
 
