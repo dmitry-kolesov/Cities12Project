@@ -46,7 +46,7 @@ public class CityDetails extends Activity {
             tv.setText(city.GetDescription());
             ImageView iv = (ImageView)findViewById(R.id.imageView1);
             DrawableManager manager = new DrawableManager();
-            manager.fetchDrawableOnThread(city.GetImageUrl(), (ImageView) iv, false);
+            manager.fetchDrawableOnThreadWithNoImage(city.GetImageUrl(), (ImageView) iv, false);
 
             Button showMapBtn = (Button)findViewById(R.id.showMapBtn);
             showMapBtn.setOnClickListener(new View.OnClickListener() {

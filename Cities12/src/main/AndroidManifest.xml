@@ -25,7 +25,7 @@
         </activity>
         <activity
             android:name="com.azcltd.android.test.kolesov.CityDetails"
-            android:label="City Details" >
+            android:label="City Details" android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -34,7 +34,7 @@
         </activity>
         <activity
             android:name="com.azcltd.android.test.kolesov.MyMapActivity"
-            android:label="City Map">
+            android:label="City Map" android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

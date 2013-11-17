@@ -6,7 +6,7 @@
     tools:context=".MainActivity"
     tools:ignore="MergeRootFrame"
     android:orientation="vertical"
-
+    android:background="#00FF00"
     >
     <!--android:background="#00FF00"-->
 <!--<Button-->

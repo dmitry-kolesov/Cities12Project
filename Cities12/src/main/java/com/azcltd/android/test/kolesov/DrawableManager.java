@@ -64,7 +64,7 @@ public class DrawableManager {
 //                        + drawable.getIntrinsicHeight() + "," + drawable.getIntrinsicWidth() + ", "
 //                        + drawable.getMinimumHeight() + "," + drawable.getMinimumWidth());
             } else {
-                Log.w(this.getClass().getSimpleName(), "could not get thumbnail");
+                Log.w(urlString, "could not get thumbnail");
             }
 
             return drawable;
@@ -76,6 +76,7 @@ public class DrawableManager {
             return null;
         }
     }
+
     private Drawable getThumbnail(Drawable image) {
         if(image != null)
         {
@@ -87,10 +88,20 @@ public class DrawableManager {
         return null;
     }
 
+    public void fetchDrawableOnThreadWithNoImage(final String urlString, final ImageView imageView, final boolean isThumbnail)
+    {
+        fetchDrawableOnThread(urlString, imageView, false);
+        if(imageView.getDrawable() == null)
+        {
+            fetchDrawableOnThread("http://www.clubwebsite.co.uk/img/misc/noImageAvailable.jpg", imageView, false);
+        }
+    }
+
     public void fetchDrawableOnThread(final String urlString, final ImageView imageView, final boolean isThumbnail) {
 
         if (drawableMap.containsKey(urlString)) {
             Drawable image = drawableMap.get(urlString);
+
             SetDrawableToImageView(image, imageView, isThumbnail);
             return;
         }
@@ -109,10 +120,11 @@ public class DrawableManager {
                 @Override
                 public void run() {
                     setPriority(3);
-                    //TODO : set imageView to a "pending" image
                     Drawable drawable = fetchDrawable(urlString);
-                    Message message = handler.obtainMessage(1, new DrawableWithFlag(drawable, isThumbnail));
-                    handler.sendMessage(message);
+                    if(drawable != null){
+                        Message message = handler.obtainMessage(1, new DrawableWithFlag(drawable, isThumbnail));
+                        handler.sendMessage(message);
+                    }
                 }
             };
             thread.start();
@@ -120,12 +132,14 @@ public class DrawableManager {
 
     private void SetDrawableToImageView(Drawable image, ImageView imageView, boolean isNeedThumbnailed)
     {
-        if(isNeedThumbnailed)
+        if(isNeedThumbnailed && (image != null))
         {
             image = getThumbnail(image);
         }
         if(image != null)
+        {
             imageView.setImageDrawable(image);
+        }
     }
 
 class DrawableWithFlag

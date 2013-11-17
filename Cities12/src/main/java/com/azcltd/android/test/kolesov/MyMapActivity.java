@@ -27,7 +27,7 @@ public class MyMapActivity  extends  Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try{
-            
+
 //            mapView = new MapView(this, 256);
 //            mapView.setClickable(true);
 //            mapView.setBuiltInZoomControls(true);
@@ -61,8 +61,8 @@ public class MyMapActivity  extends  Activity {
     private void initOSMDroidMap()
     {
         MapView mapView = (MapView) findViewById(R.id.mapview);
-        mapView.setBuiltInZoomControls(true);
-        mapView.setMultiTouchControls(true);
+        //mapView.setBuiltInZoomControls(true);
+        //mapView.setMultiTouchControls(true);
         Intent intent= getIntent();
         int position = intent.getIntExtra("position", -1);
         if(position >= 0)

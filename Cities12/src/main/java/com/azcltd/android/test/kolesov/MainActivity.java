@@ -1,6 +1,11 @@
 package com.azcltd.android.test.kolesov;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.provider.SyncStateContract;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -29,20 +34,23 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        boolean isRetry = true;
+        boolean connectionState;
+        do
+        {
+            connectionState = isNetworkAvailable();
+            if(!connectionState)
+                isRetry = showRetryDialog();
+        }while(!connectionState && isRetry);
+        if(!isRetry && !connectionState)
+            System.exit(0);
 
+        loadCitiesList();
 //        Button resend = (Button)findViewById(R.id.resendBtn);
 //        resend.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view)
-            {
-                WsClient client = new WsClient();
-                cities = WsClient.GetInstance().GetCities();
-                if(cities != null){
-                    ListView lv = (ListView)findViewById(R.id.lvMain);
-                    MyAdapter adapter = new MyAdapter( lv.getContext(), R.layout.mylistitem, cities);
-                    lv.setAdapter(adapter);
-                }
-            }
+
         //});
         ListView listView = (ListView)findViewById(R.id.lvMain);
         listView.setOnItemClickListener (listener);
@@ -67,24 +75,53 @@ public class MainActivity extends ActionBarActivity {
             }
         };
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    //http://stackoverflow.com/questions/4238921/android-detect-whether-there-is-an-internet-connection-available
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
+    private void loadCitiesList()
+    {
+        WsClient client = new WsClient();
+        cities = WsClient.GetInstance().GetCities();
+        if(cities != null){
+            ListView lv = (ListView)findViewById(R.id.lvMain);
+            City[] citiesArray = new City[cities.size()];
+            MyAdapter adapter = new MyAdapter( lv.getContext(),  cities.toArray(citiesArray));//R.layout.mylistitem,
+            lv.setAdapter(adapter);
         }
-        return super.onOptionsItemSelected(item);
     }
 
+    boolean retryDlgResult = false;
+    //http://stackoverflow.com/questions/7456509/android-messagebox
+    private boolean showRetryDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setTitle("No connection")
+                .setMessage("Do you want retry check connection?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        retryDlgResult = true;
+                        //do some thing here which you need
+                    }
+                });
+        builder.setNegativeButton("Exit", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                retryDlgResult = false;
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+        return retryDlgResult;
+    }
 }
